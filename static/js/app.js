@@ -36,8 +36,7 @@ function updateFilters() {
   // let filterInputs = document.getElementsByTagName("input");
   // // console.log(filterInputs)
   // Array.from(filterInputs).forEach(input=>console.log(input.value))
-
-  
+ 
   let filterInput = d3.select(this)
 
   let filterValue = filterInput.property("value").trim();
