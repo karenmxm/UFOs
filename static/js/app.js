@@ -33,9 +33,20 @@ function updateFilters() {
 
   // Save the element, value, and id of the filter that was changed
 
-  let filterInput = d3.select("input");
-  let filterValue = filterInput.property("value");
+  // let filterInputs = document.getElementsByTagName("input");
+  // // console.log(filterInputs)
+  // Array.from(filterInputs).forEach(input=>console.log(input.value))
+
+  
+  let filterInput = d3.select(this)
+
+  let filterValue = filterInput.property("value").trim();
+
   let filterId = filterInput.attr("id");
+
+  console.log(filterId, filterValue)
+
+  // filters[filterId] = filterValue
 
   // If a filter value was entered then add that filterId and value
   // to the filters list. Otherwise, clear that filter from the filters object
@@ -45,31 +56,29 @@ function updateFilters() {
     filters[filterId] = filterValue
 
   }
-
+  
   else {
 
-    delete filters
+    delete filters[filterId]
 
   }
 
   // Call function to apply all filters and rebuild the table
-  filterTable(filters);
+  filterTable();
 }
 
 
-function filterTable(filters) {
+function filterTable() {
 
   // Set the filteredData to the tableData
   let filteredData = tableData;
 
-  // Loop through all of the filters and keep any data that
-  // matches the filter values
+  // // Loop through all of the filters and keep any data that
+  // // matches the filter values
 
   for (var key of Object.keys(filters)) {
-      
-    // if (filters[key]){
+
     filteredData = filteredData.filter(row => row[key]==filters[key]);
-    // }
 
   }
 
@@ -77,13 +86,10 @@ function filterTable(filters) {
   buildTable(filteredData);
 }
 
+
 // Attach an event to listen for changes to each filter
 // Hint: You'll need to select the event and what it is listening for within each set of parenthesis
-d3.selectAll("#filter-btn").on("click", updateFilters);
-
-d3.selectAll("input").on("keypress", updateFilters);
-
-// d3.select("#form").on("filter-btn", updateFilters);
+d3.selectAll("input").on("change", updateFilters);
 
 // Build the table when the page loads
 buildTable(tableData);
